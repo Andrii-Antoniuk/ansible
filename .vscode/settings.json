@@ -1,0 +1,7 @@
+{
+    "ansible.python.interpreterPath": "/bin/python3",
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/tasks": "file:///home/personal_jesus/personal/ansible/tasks/ssh.yml",
+        "https://raw.githubusercontent.com/ansible/ansible-lint/main/src/ansiblelint/schemas/ansible.json#/$defs/playbook": "file:///home/personal_jesus/personal/ansible/local.yml"
+    }
+}

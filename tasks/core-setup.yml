@@ -1,0 +1,22 @@
+- name: Install System Packages (cmake, curl)
+  become: true
+  ansible.builtin.apt:
+    name: ["cmake", "curl"]
+  tags:
+    - install
+    - core
+- name: Add Ubuntu Tweaks Repository
+  become: true
+  ansible.builtin.shell: add-apt-repository universe -y && apt update
+  tags:
+    - install
+    - tweaks
+  when: ansible_distribution == 'Ubuntu' and not "microsoft" in ansible_facts["kernel"]
+- name: Install Ubuntu Tweaks
+  become: true
+  ansible.builtin.apt:
+    name: ["gnome-tweak-tool"]
+  tags:
+    - install
+    - tweaks
+  when: ansible_distribution == 'Ubuntu' and not "microsoft" in ansible_facts["kernel"]

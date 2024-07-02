@@ -1,0 +1,22 @@
+- name: Remove vscode
+  community.general.snap:
+    name: code
+    state: absent
+  tags:
+    - install
+    - vscode
+  when: 'not "microsoft" in ansible_facts["kernel"]'
+- name: Install vscode
+  community.general.snap:
+    name: code
+  tags:
+    - install
+    - vscode
+  when: 'not "microsoft" in ansible_facts["kernel"]'
+- name: Install vscode extensions
+  ansible.builtin.command: vscode/install-extensions.sh
+  tags:
+    - install
+    - vscode
+  register: installed
+  changed_when: installed.rc != 0

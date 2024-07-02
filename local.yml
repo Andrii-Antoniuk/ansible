@@ -1,0 +1,42 @@
+- name: Local setup
+  hosts: localhost
+  vars:
+    source_key: './.ssh/id_ed25519'
+    dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
+    personal: "{{ lookup('env', 'HOME') }}/personal"
+    user: "{{ lookup('env', 'USER') }}"
+    gh_username: 'Andrii-Antoniuk'
+  pre_tasks:
+    - name: Update Apt
+      become: true
+      ansible.builtin.apt:
+        force_apt_get: true
+        update_cache: true
+        state: present
+      tags:
+        - install
+        - core
+  tasks:
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/ssh.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/git-setup.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/core-setup.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/zsh-setup.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/node-setup.yml
+- name: Local setup continued
+  hosts: localhost
+  vars:
+    gh_username: 'Andrii-Antoniuk'
+  tasks:
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/npm-packages.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/slack-setup.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/vscode-setup.yml
+    - name: Import task
+      ansible.builtin.include_tasks: tasks/dotfiles.yml

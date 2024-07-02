@@ -1,0 +1,23 @@
+- name: Check if n exists
+  ansible.builtin.raw: which n
+  register: n_exists
+  changed_when: n_exists.rc != 0
+  check_mode: false
+  failed_when: n_exists.rc > 1
+- name: Uninstall n
+  ansible.builtin.command:
+    cmd: n-uninstall -y
+  register: n_output
+  changed_when: n_output.rc != 0
+  when: n_exists.rc == 0
+- name: 'Remove n folder'
+  ansible.builtin.command:
+    cmd: rm -rf ~/n
+- name: Install n
+  ansible.builtin.shell:
+    cmd: curl -L https://git.io/n-install | bash -s -- -y lts
+  tags:
+    - install
+    - node
+  register: n_output
+  changed_when: n_output.rc != 0

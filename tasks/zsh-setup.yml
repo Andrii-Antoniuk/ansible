@@ -1,0 +1,47 @@
+- name: Install ZSH
+  become: true
+  ansible.builtin.apt:
+    name: zsh
+  tags: &tags_for_zsh_tasks ['install', 'productivity', 'dotfiles', 'zsh']
+
+- name: Change shell to zsh
+  become: true
+  ansible.builtin.shell: chsh -s $(which zsh) {{ user }}
+  tags: *tags_for_zsh_tasks
+  register: zsh_changed
+  changed_when: zsh_changed.rc != 0
+
+- name: Check that the somefile.conf exists
+  ansible.builtin.stat:
+    path: ~/.oh-my-zsh
+  register: oh_my_stats
+  tags: *tags_for_zsh_tasks
+
+- name: Oh-My-Zsh uninstall if exists
+  ansible.builtin.shell: rm -rf ~/.oh-my-zsh
+  tags: *tags_for_zsh_tasks
+  when: oh_my_stats.stat.exists
+  changed_when: oh_my_stats.stat.exists
+
+- name: Oh-My-Zsh
+  ansible.builtin.shell:
+    curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer --keep-zshrc
+  tags: *tags_for_zsh_tasks
+  when: not oh_my_stats.stat.exists
+  changed_when: oh_my_stats.stat.exists
+
+- name: Install zsh-autosuggestions
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
+    dest: "~/.oh-my-zsh/plugins/zsh-autosuggestions"
+  tags: *tags_for_zsh_tasks
+
+- name: Install zsh-highlighting
+  ansible.builtin.git:
+    repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+    dest: "~/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+  tags: *tags_for_zsh_tasks
+
+- name: Install pnpm plugin
+  ansible.builtin.shell: git clone --depth=1 https://github.com/ntnyq/omz-plugin-pnpm.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/pnpm
+  tags: *tags_for_zsh_tasks

@@ -1,0 +1,17 @@
+- name: Download Slack
+  community.general.snap:
+    name: slack
+  tags:
+    - install
+    - slack
+  when: 'not "microsoft" in ansible_facts["kernel"]'
+
+- name: Remove Any previous slacks
+  become: true
+  community.general.snap:
+    name: slack-desktop
+    state: absent
+  tags:
+    - install
+    - slack
+  when: 'not "microsoft" in ansible_facts["kernel"]'
