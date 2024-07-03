@@ -2,6 +2,8 @@
   community.general.snap:
     name: code
     state: absent
+    classic: true
+  become: true
   tags:
     - install
     - vscode
@@ -9,6 +11,8 @@
 - name: Install vscode
   community.general.snap:
     name: code
+    classic: true
+  become: true
   tags:
     - install
     - vscode

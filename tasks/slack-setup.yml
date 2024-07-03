@@ -1,6 +1,7 @@
 - name: Download Slack
   community.general.snap:
     name: slack
+  become: true
   tags:
     - install
     - slack

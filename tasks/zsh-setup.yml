@@ -27,7 +27,6 @@
   ansible.builtin.shell:
     curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh > ~/.oh-my-installer && chmod +x ~/.oh-my-installer && ~/.oh-my-installer --keep-zshrc
   tags: *tags_for_zsh_tasks
-  when: not oh_my_stats.stat.exists
   changed_when: oh_my_stats.stat.exists
 
 - name: Install zsh-autosuggestions

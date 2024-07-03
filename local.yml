@@ -34,9 +34,9 @@
   tasks:
     - name: Import task
       ansible.builtin.include_tasks: tasks/npm-packages.yml
-    - name: Import task
-      ansible.builtin.include_tasks: tasks/slack-setup.yml
-    - name: Import task
-      ansible.builtin.include_tasks: tasks/vscode-setup.yml
+    # - name: Import task
+    #   ansible.builtin.include_tasks: tasks/slack-setup.yml
+    # - name: Import task
+    #   ansible.builtin.include_tasks: tasks/vscode-setup.yml
     - name: Import task
       ansible.builtin.include_tasks: tasks/dotfiles.yml
