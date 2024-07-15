@@ -23,6 +23,10 @@
       ansible.builtin.include_tasks: tasks/git-setup.yml
     - name: Import task
       ansible.builtin.include_tasks: tasks/core-setup.yml
+      tags:
+        - install
+        - core
+        - screen
     - name: Import task
       ansible.builtin.include_tasks: tasks/zsh-setup.yml
     - name: Import task

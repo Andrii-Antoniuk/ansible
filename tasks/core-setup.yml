@@ -20,3 +20,10 @@
     - install
     - tweaks
   when: ansible_distribution == 'Ubuntu' and not "microsoft" in ansible_facts["kernel"]
+- name: Make screens work with Ubuntu
+  ansible.builtin.shell: screen/make-screens-work.sh
+  tags:
+    - install
+    - core
+    - screen
+  when: ansible_distribution == 'Ubuntu' and not "microsoft" in ansible_facts["kernel"]
